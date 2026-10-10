@@ -74,7 +74,7 @@ impl TimeLockContract {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use soroban_sdk::{testutils::Address as _, Address, Env};
+    use soroban_sdk::{testutils::Address as _, testutils::Ledger as _, Address, Env};
 
     #[test]
     fn locked_before_unlock_ledger() {

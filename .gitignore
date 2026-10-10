@@ -1,5 +1,4 @@
 target/
-*.lock
 .env
 .DS_Store
 .vscode/

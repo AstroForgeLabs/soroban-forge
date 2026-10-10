@@ -12,16 +12,12 @@
 
 #![no_std]
 
-use soroban_sdk::{
-    contract, contractimpl, contracttype, map, symbol_short, vec, Address, Env, Map, Symbol, Vec,
-};
+use soroban_sdk::{contract, contractimpl, map, symbol_short, Address, Env, Map, Symbol, Vec};
 
 // ─── Storage keys ────────────────────────────────────────────────────────────
 
 const THRESHOLD_KEY: Symbol = symbol_short!("THRESH");
 const SIGNERS_KEY: Symbol = symbol_short!("SIGNERS");
-/// Prefix for per-op approval maps: "AP:{op_id}"
-const APPROVALS_PREFIX: Symbol = symbol_short!("AP");
 
 // ─── Contract ────────────────────────────────────────────────────────────────
 
@@ -106,12 +102,13 @@ mod tests {
     use super::*;
     use soroban_sdk::{testutils::Address as _, Address, Env};
 
-    fn setup(env: &Env, n: u32, m: usize) -> (soroban_sdk::Address, Vec<Address>, MultisigPolicyContractClient) {
+    fn setup(env: &Env, n: u32, m: usize) -> (soroban_sdk::Address, Vec<Address>, MultisigPolicyContractClient<'_>) {
         let id = env.register(MultisigPolicyContract, ());
         let client = MultisigPolicyContractClient::new(env, &id);
-        let signers: Vec<Address> = (0..m)
-            .map(|_| Address::generate(env))
-            .collect::<soroban_sdk::Vec<Address>>();
+        let mut signers: Vec<Address> = Vec::new(env);
+        for _ in 0..m {
+            signers.push_back(Address::generate(env));
+        }
         client.initialise(&signers, &n);
         (id, signers, client)
     }

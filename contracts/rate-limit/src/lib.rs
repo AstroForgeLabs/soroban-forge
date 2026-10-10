@@ -7,7 +7,7 @@
 
 #![no_std]
 
-use soroban_sdk::{contract, contractimpl, contracttype, symbol_short, Env, Symbol};
+use soroban_sdk::{contract, contractimpl, symbol_short, Env, Symbol};
 
 // ─── Storage keys ────────────────────────────────────────────────────────────
 
@@ -85,7 +85,7 @@ impl RateLimitContract {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use soroban_sdk::Env;
+    use soroban_sdk::{testutils::Ledger as _, Env};
 
     #[test]
     fn allows_calls_within_limit() {

@@ -1,0 +1,23 @@
+[workspace]
+members = [
+    "contracts/spend-limit",
+    "contracts/rate-limit",
+    "contracts/multisig-policy",
+    "contracts/time-lock",
+    "event-pipeline/webhook-relay",
+]
+resolver = "2"
+
+[workspace.dependencies]
+soroban-sdk = { version = "=22.0.11" }
+soroban-env-host = { version = "=22.1.3" }
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
